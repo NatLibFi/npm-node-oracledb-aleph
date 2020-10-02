@@ -1,0 +1,7 @@
+diff --git a/package.json b/package.json
+index 5dfafc9..c2c41b8 100644
+--- a/package.json
++++ b/package.json
+@@ -2 +2 @@
+-  "name": "oracledb",
++  "name": "@natlibfi/oracledb-aleph",

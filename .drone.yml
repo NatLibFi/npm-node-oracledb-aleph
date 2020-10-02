@@ -1,0 +1,28 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+trigger:
+  branch: [dev]
+  #branch: [master]
+
+steps:
+
+  - name: publish
+    image: node:12
+    commands:
+      - ./script.sh
+    settings:
+      tag_pattern: 'v5*'
+      npm_token:
+        from_secret: npm_token
+---
+kind: secret
+name: npm_token
+data: vF0fwB7WlKKAhavezdSSSqgk/na7yecQRrdWi12dHE0YFVPyn+ETErb3Ep82Zmm6Z12IwEJasyS+Tj4llBV4oA==
+---
+kind: signature
+hmac: 49c1eb74bbdc394e732bbde0cf3913cf33c4b98512577023ae2e0220c087f2f2
+
+...
