@@ -1,7 +1,5 @@
-diff --git a/odpi/src/dpiImpl.h b/odpi/src/dpiImpl.h
-index eac7cd0..a20cbd2 100644
---- a/odpi/src/dpiImpl.h
-+++ b/odpi/src/dpiImpl.h
+--- odpi/src/dpiImpl.h
++++ odpi/src/dpiImpl.h
 @@ -122 +122 @@ extern unsigned long dpiDebugLevel;
 -#define DPI_CHARSET_ID_UTF8                         873
 +#define DPI_CHARSET_ID_UTF8                         871

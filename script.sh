@@ -28,10 +28,14 @@ fi
 
 echo "//registry.npmjs.org/:_authToken=${PLUGIN_NPM_TOKEN}" > ${HOME}/.npmrc
 
-git clone https://github.com/oracle/node-oracledb repo
+echo "Cloning upstream repository"
+git clone -q https://github.com/oracle/node-oracledb repo
 cd repo
 
-git checkout `git tag -l ${PLUGIN_TAG_PATTERN}|grep -E '^v[0-9\.]+$'|sort -r|head -n1`
+TAG=`git tag -l ${PLUGIN_TAG_PATTERN}|grep -E '^v[0-9\.]+$'|sort -r|head -n1`
+
+echo "Checking out tag ${TAG}"
+git checkout -q
 
 PACKAGE_VERSION=`node -e 'console.log(require("./package").version)'`
 
@@ -40,14 +44,18 @@ if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
   exit 0
 fi
 
+echo "Cloning submodules"
 git clone -b master --depth=1 https://github.com/oracle/odpi odpi
 
-git apply ../fix-charset.patch
-git apply ../fix-name.patch
+echo "Applying patches"
+patch -p0 < ../fix-name.patch
+patch -p0 < ../fix-charset.patch
 
+echo "Building package"
 npm install
 npm run buildbinary
 npm run buildpackage
 
-echo npm publish "oracledb-${PACKAGE_VERSION}.tgz"
+echo npm publish "natlibfi-oracledb-aleph-${PACKAGE_VERSION}.tgz"
+ls -l "natlibfi-oracledb-aleph-${PACKAGE_VERSION}.tgz"
 #npm publish "oracledb-${PACKAGE_VERSION}.tgz"
