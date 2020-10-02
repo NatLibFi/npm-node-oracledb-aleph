@@ -56,5 +56,4 @@ npm install
 npm run buildbinary
 npm run buildpackage
 
-echo npm publish "oracledb-${PACKAGE_VERSION}.tgz"
-ls -l
+npm publish "oracledb-${PACKAGE_VERSION}.tgz"

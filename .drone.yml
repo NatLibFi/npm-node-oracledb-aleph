@@ -4,8 +4,7 @@ type: docker
 name: default
 
 trigger:
-  branch: [dev]
-  #branch: [master]
+  branch: [master]
 
 steps:
 
