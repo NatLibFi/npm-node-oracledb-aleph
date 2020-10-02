@@ -16,22 +16,22 @@
 
 set -e
 
-if test -z "${PLUGIN_CONFIG_TAG_PATTERN}";then
+if test -z "${PLUGIN_TAG_PATTERN}";then
   echo 'Setting tag_pattern is mandatory'
   exit 1
 fi
 
-if test -z "${PLUGIN_CONFIG_NPM_TOKEN}";then
+if test -z "${PLUGIN_NPM_TOKEN}";then
   echo 'Setting npm_token is mandatory'
   exit 1
 fi
 
-echo "//registry.npmjs.org/:_authToken=${PLUGIN_CONFIG_NPM_TOKEN}" > ${HOME}/.npmrc
+echo "//registry.npmjs.org/:_authToken=${PLUGIN_NPM_TOKEN}" > ${HOME}/.npmrc
 
 git clone https://github.com/oracle/node-oracledb repo
 cd repo
 
-git checkout `git tag -l ${PLUGIN_CONFIG_TAG_PATTERN}|grep -E '^v[0-9\.]+$'|sort -r|head -n1`
+git checkout `git tag -l ${PLUGIN_TAG_PATTERN}|grep -E '^v[0-9\.]+$'|sort -r|head -n1`
 
 PACKAGE_VERSION=`node -e 'console.log(require("./package").version)'`
 
