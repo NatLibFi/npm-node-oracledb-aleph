@@ -1,0 +1,5 @@
+--- package.json
++++ package.json
+@@ -2 +2 @@
+-  "name": "oracledb",
++  "name": "@natlibfi/oracledb-aleph",

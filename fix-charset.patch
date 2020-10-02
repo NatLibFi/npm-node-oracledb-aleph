@@ -1,0 +1,5 @@
+--- odpi/src/dpiImpl.h
++++ odpi/src/dpiImpl.h
+@@ -122 +122 @@ extern unsigned long dpiDebugLevel;
+-#define DPI_CHARSET_ID_UTF8                         873
++#define DPI_CHARSET_ID_UTF8                         871
