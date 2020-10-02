@@ -35,7 +35,7 @@ cd repo
 TAG=`git tag -l ${PLUGIN_TAG_PATTERN}|grep -E '^v[0-9\.]+$'|sort -r|head -n1`
 
 echo "Checking out tag ${TAG}"
-git checkout -q
+git checkout -q $TAG
 
 PACKAGE_VERSION=`node -e 'console.log(require("./package").version)'`
 
@@ -56,6 +56,4 @@ npm install
 npm run buildbinary
 npm run buildpackage
 
-echo npm publish "natlibfi-oracledb-aleph-${PACKAGE_VERSION}.tgz"
-ls -l "natlibfi-oracledb-aleph-${PACKAGE_VERSION}.tgz"
-#npm publish "oracledb-${PACKAGE_VERSION}.tgz"
+npm publish "oracledb-${PACKAGE_VERSION}.tgz"
