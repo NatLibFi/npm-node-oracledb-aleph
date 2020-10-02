@@ -56,4 +56,4 @@ npm install
 npm run buildbinary
 npm run buildpackage
 
-npm publish "oracledb-${PACKAGE_VERSION}.tgz"
+npm publish "natlibfi-oracledb-aleph-${PACKAGE_VERSION}.tgz"
