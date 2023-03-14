@@ -45,7 +45,7 @@ if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
 fi
 
 echo "Cloning submodules"
-git clone -b master --depth=1 https://github.com/oracle/odpi odpi
+git clone -b main --depth=1 https://github.com/oracle/odpi odpi
 
 echo "Applying patches"
 patch -p0 < ../fix-name.patch
