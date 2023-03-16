@@ -1,4 +1,4 @@
-# Drone configuration to publish a patched oracle/node-oracledb for Aleph
+# Github actions configuration to publish a patched oracle/node-oracledb for Aleph
 
 ## License and copyright
 
