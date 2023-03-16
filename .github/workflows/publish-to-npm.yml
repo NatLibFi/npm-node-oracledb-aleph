@@ -20,6 +20,8 @@ jobs:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
+      - run: npm run buildbinary
+      - run: npm run buildpackage
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.ORACLEDB_ALEPH_NPM_TOKEN }}

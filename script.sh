@@ -21,13 +21,6 @@ if test -z "${PLUGIN_TAG_PATTERN}";then
   exit 1
 fi
 
-if test -z "${PLUGIN_NPM_TOKEN}";then
-  echo 'Setting npm_token is mandatory'
-  exit 1
-fi
-
-echo "//registry.npmjs.org/:_authToken=${PLUGIN_NPM_TOKEN}" > ${HOME}/.npmrc
-
 echo "Cloning upstream repository"
 git clone -q https://github.com/oracle/node-oracledb repo
 cd repo
@@ -51,9 +44,3 @@ echo "Applying patches"
 patch -p0 < ../fix-name.patch
 patch -p0 < ../fix-charset.patch
 
-echo "Building package"
-npm install
-npm run buildbinary
-npm run buildpackage
-
-npm publish "natlibfi-oracledb-aleph-${PACKAGE_VERSION}.tgz"
