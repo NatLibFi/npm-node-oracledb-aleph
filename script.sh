@@ -42,11 +42,11 @@ patch -p0 < ../fix-charset.patch
 # Our publishing is done in GitHubActions, so this actually does nothing?
 if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
   echo 'No changes in upstream, exiting.'
-  export ${NEEDS_TO_PUBLISH}=false
+  echo "NEEDS_TO_PUBLISH=false" >> "$GITHUB_ENV"
   exit 0
 fi
 
-export ${NEEDS_TO_PUBLISH}=true
+echo "NEEDS_TO_PUBLISH=true" >> "$GITHUB_ENV"
 
 
 # this is done in githubActions

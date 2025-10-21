@@ -6,8 +6,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     # if: contains(github.ref, 'refs/tags/')
-    outputs:
-      needs_to_publish: $${{ steps.script.outputs.needs_to_publish }}
     steps:
       - name: Checkout this code repository
         uses: actions/checkout@v5
@@ -16,12 +14,12 @@ jobs:
         run: ./script.sh
         env:
           PLUGIN_TAG_PATTERN: '6.0'
+          NEEDS_TO_PUBLISH: unknown
       - name: Test env
-        if: ${{ env.NEEDS_TO_RUN == 'true' || env.NEEDS_TO_RUN == 'false'}}
-        run: echo "We have need-to-run env"
+        run: |
+          echo "We have need-to-run env: $NEEDS_TO_PUBLISH"
       # Setup .npmrc file to publish to npm
       - name: Publish
-        if: $${{ steps.script.outputs.needs_to_publish != 'false'}}
         uses: actions/setup-node@v6
         with:
           node-version: '22.x'
