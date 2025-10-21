@@ -16,11 +16,13 @@ jobs:
           PLUGIN_TAG_PATTERN: '6.0'
           NEEDS_TO_PUBLISH: unknown
       - name: Test env
+        env:
+          NEEDS_TO_PUBLISH: ${{ steps.script.outputs.NEEDS_TO_PUBLISH }}
         run: |
           echo "We have need-to-run env: $NEEDS_TO_PUBLISH"
       # Setup .npmrc file to publish to npm
       - name: Publish
-        if: ${{ env.NEEDS_TO_PUBLISH == 'true'}}
+        if: ${{ steps.script.outputs.NEEDS_TO_PUBLISH == 'true'}}
         uses: actions/setup-node@v6
         with:
           node-version: '22.x'
