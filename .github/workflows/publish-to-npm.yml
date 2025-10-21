@@ -20,6 +20,7 @@ jobs:
           echo "We have need-to-run env: $NEEDS_TO_PUBLISH"
       # Setup .npmrc file to publish to npm
       - name: Publish
+        if: ${{ env.NEEDS_TO_PUBLISH == 'true'}}
         uses: actions/setup-node@v6
         with:
           node-version: '22.x'
