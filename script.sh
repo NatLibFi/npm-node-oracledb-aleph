@@ -25,6 +25,9 @@ echo "Cloning upstream repository"
 git clone -q https://github.com/oracle/node-oracledb repo
 cd repo
 
+echo "Cloning submodules"
+git clone -b main --depth=1 https://github.com/oracle/odpi odpi
+
 TAG=`git tag -l ${PLUGIN_TAG_PATTERN}|grep -E '^v[0-9\.]+$'|sort -r|head -n1`
 
 echo "Checking out tag ${TAG}"
@@ -36,9 +39,6 @@ if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
   echo 'No changes in upstream, exiting.'
   exit 0
 fi
-
-echo "Cloning submodules"
-git clone -b main --depth=1 https://github.com/oracle/odpi odpi
 
 echo "Applying patches"
 patch -p0 < ../fix-name.patch
