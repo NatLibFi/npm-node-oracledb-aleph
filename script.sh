@@ -35,14 +35,15 @@ git checkout -q $TAG
 
 PACKAGE_VERSION=`node -e 'console.log(require("./package").version)'`
 
+echo "Applying patches"
+patch -p0 < ../fix-name.patch
+patch -p0 < ../fix-charset.patch
+
+# Our publishing is done in GitHubActions, so this actually does nothing?
 if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
   echo 'No changes in upstream, exiting.'
   exit 0
 fi
-
-echo "Applying patches"
-patch -p0 < ../fix-name.patch
-patch -p0 < ../fix-charset.patch
 
 # this is done in guthubActions
 #echo "Building package"
