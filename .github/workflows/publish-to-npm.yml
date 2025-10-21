@@ -8,13 +8,13 @@ jobs:
     # if: contains(github.ref, 'refs/tags/')
     steps:
       - name: Checkout this code repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
       - name: Run script
         run: ./script.sh
         env:
           PLUGIN_TAG_PATTERN: '6.0'
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v6
         with:
           node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
