@@ -16,6 +16,9 @@ jobs:
         run: ./script.sh
         env:
           PLUGIN_TAG_PATTERN: '6.0'
+      - name: Test env
+        if: ${{ env.NEEDS_TO_RUN == 'true' || env.NEEDS_TO_RUN == 'false'}}
+        run: echo "We have need-to-run env"
       # Setup .npmrc file to publish to npm
       - name: Publish
         if: $${{ steps.script.outputs.needs_to_publish != 'false'}}
