@@ -14,20 +14,20 @@ jobs:
         run: ./script.sh
         env:
           PLUGIN_TAG_PATTERN: '6.0'
-          NEEDS_TO_PUBLISH: unknown
-      - name: Test env
+      - name: Test NEEDS_TO_PUBLISH output
         env:
           NEEDS_TO_PUBLISH: ${{ steps.script.outputs.NEEDS_TO_PUBLISH }}
         run: |
-          echo "We have need-to-run env: $NEEDS_TO_PUBLISH"
+          echo "We have needs-to-publish env: $NEEDS_TO_PUBLISH"
       # Setup .npmrc file to publish to npm
-      - name: Publish
+      - name: Setup node for publishing if needed
         if: ${{ steps.script.outputs.NEEDS_TO_PUBLISH == 'true'}}
         uses: actions/setup-node@v6
         with:
           node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: cd repo && npm install && npm run buildbinary && npm run buildpackage && npm publish
+      - name: Publish if needed
+        run: cd repo && npm install && npm run buildbinary && npm run buildpackage && npm publish
         if: ${{ steps.script.outputs.NEEDS_TO_PUBLISH == 'true'}}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.ORACLEDB_ALEPH_NPM_TOKEN }}

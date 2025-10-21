@@ -39,13 +39,15 @@ echo "Applying patches"
 patch -p0 < ../fix-name.patch
 patch -p0 < ../fix-charset.patch
 
-# Our publishing is done in GitHubActions, so this actually does nothing?
+# Let's send NEEDS_TO_PUBLISH: false to output
+# re-publishing same version would error anyways
 if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
   echo 'No changes in upstream, exiting.'
   echo "NEEDS_TO_PUBLISH=false" >> "$GITHUB_OUTPUT"
   exit 0
 fi
 
+# Let's send NEEDS_TO_PUBLISH: true to output
 echo "NEEDS_TO_PUBLISH=true" >> "$GITHUB_OUTPUT"
 
 
