@@ -45,7 +45,7 @@ if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
   exit 0
 fi
 
-# this is done in guthubActions
+# this is done in githubActions
 #echo "Building package"
 #npm install
 #npm run buildbinary
