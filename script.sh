@@ -21,16 +21,12 @@ if test -z "${PLUGIN_TAG_PATTERN}";then
   exit 1
 fi
 
-if test -z "${PLUGIN_NPM_TOKEN}";then
-  echo 'Setting npm_token is mandatory'
-  exit 1
-fi
-
-echo "//registry.npmjs.org/:_authToken=${PLUGIN_NPM_TOKEN}" > ${HOME}/.npmrc
-
 echo "Cloning upstream repository"
 git clone -q https://github.com/oracle/node-oracledb repo
 cd repo
+
+echo "Cloning submodules"
+git clone -b main --depth=1 https://github.com/oracle/odpi odpi
 
 TAG=`git tag -l ${PLUGIN_TAG_PATTERN}|grep -E '^v[0-9\.]+$'|sort -r|head -n1`
 
@@ -39,21 +35,26 @@ git checkout -q $TAG
 
 PACKAGE_VERSION=`node -e 'console.log(require("./package").version)'`
 
-if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
-  echo 'No changes in upstream, exiting.'
-  exit 0
-fi
-
-echo "Cloning submodules"
-git clone -b main --depth=1 https://github.com/oracle/odpi odpi
-
 echo "Applying patches"
 patch -p0 < ../fix-name.patch
 patch -p0 < ../fix-charset.patch
 
-echo "Building package"
-npm install
-npm run buildbinary
-npm run buildpackage
+# Let's send NEEDS_TO_PUBLISH: false to output
+# re-publishing same version would error anyways
+if test ${PACKAGE_VERSION} = `npm info @natlibfi/oracledb-aleph version`;then
+  echo 'No changes in upstream, exiting.'
+  echo "NEEDS_TO_PUBLISH=false" >> "$GITHUB_OUTPUT"
+  exit 0
+fi
 
-npm publish "natlibfi-oracledb-aleph-${PACKAGE_VERSION}.tgz"
+# Let's send NEEDS_TO_PUBLISH: true to output
+echo "NEEDS_TO_PUBLISH=true" >> "$GITHUB_OUTPUT"
+
+
+# this is done in githubActions
+#echo "Building package"
+#npm install
+#npm run buildbinary
+#npm run buildpackage
+#
+#npm publish "natlibfi-oracledb-aleph-${PACKAGE_VERSION}.tgz"

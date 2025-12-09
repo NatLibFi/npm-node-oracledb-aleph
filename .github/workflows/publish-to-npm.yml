@@ -1,0 +1,33 @@
+name: Melinda publish to npm
+
+on: push
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # if: contains(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout this code repository
+        uses: actions/checkout@v5
+      - name: Run script
+        id: script
+        run: ./script.sh
+        env:
+          PLUGIN_TAG_PATTERN: '6.0'
+      - name: Test NEEDS_TO_PUBLISH output
+        env:
+          NEEDS_TO_PUBLISH: ${{ steps.script.outputs.NEEDS_TO_PUBLISH }}
+        run: |
+          echo "We have needs-to-publish env: $NEEDS_TO_PUBLISH"
+      # Setup .npmrc file to publish to npm
+      - name: Setup node for publishing if needed
+        if: ${{ steps.script.outputs.NEEDS_TO_PUBLISH == 'true'}}
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Publish if needed
+        run: cd repo && npm install && npm run buildbinary && npm run buildpackage && npm publish
+        if: ${{ steps.script.outputs.NEEDS_TO_PUBLISH == 'true'}}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.ORACLEDB_ALEPH_NPM_TOKEN }}
